@@ -1,152 +1,184 @@
-'use strict';
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+    initScrollReveal();
+    initCustomCursor();
+    fetchGitHubProjects();
+    initNavbarHideOnScroll();
+});
 
 /* ==========================
-   Typing animation
+   Scroll Reveal
 ========================== */
-const texts = ['Developer', 'Problem Solver', 'Coding'];
-let textIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
 
-function typeText() {
-  const typingElement = document.getElementById('typingText');
-  if (!typingElement) return;
+    const revealOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
 
-  const currentText = texts[textIndex];
+    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
 
-  if (isDeleting) {
-    typingElement.textContent = currentText.substring(0, charIndex - 1);
-    charIndex--;
-  } else {
-    typingElement.textContent = currentText.substring(0, charIndex + 1);
-    charIndex++;
-  }
-
-  if (!isDeleting && charIndex === currentText.length) {
-    setTimeout(() => (isDeleting = true), 2000);
-  } else if (isDeleting && charIndex === 0) {
-    isDeleting = false; // แก้จาก faalse ➜ false
-    textIndex = (textIndex + 1) % texts.length;
-  }
-
-  const speed = isDeleting ? 50 : 100;
-  setTimeout(typeText, speed);
+    revealElements.forEach(el => {
+        revealOnScroll.observe(el);
+    });
 }
 
 /* ==========================
-   Scroll animations
+   Custom Cursor
 ========================== */
-function animateOnScroll() {
-  const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
-  elements.forEach((el) => {
-    const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 150) el.classList.add('visible');
-  });
+function initCustomCursor() {
+    const cursor = document.getElementById('cursor');
+    const follower = document.getElementById('cursor-follower');
+    
+    if (!cursor || !follower) return;
 
-  // Animate skill bars
-  const skillBars = document.querySelectorAll('.skill-bar');
-  skillBars.forEach((bar) => {
-    const top = bar.getBoundingClientRect().top;
-    if (top < window.innerHeight - 150) bar.classList.add('animate');
-  });
-}
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let followerX = mouseX;
+    let followerY = mouseY;
 
-/* ==========================
-   Scroll progress indicator
-========================== */
-function updateScrollIndicator() {
-  const bar = document.getElementById('scrollIndicator');
-  if (!bar) return;
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const docHeight = document.body.scrollHeight - window.innerHeight;
-  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  bar.style.width = pct + '%';
-}
-
-/* ==========================
-   Smooth scroll to section
-========================== */
-function scrollToSection(sectionId) {
-  const target = document.getElementById(sectionId);
-  if (!target) return;
-  target.scrollIntoView({ behavior: 'smooth' });
-}
-window.scrollToSection = scrollToSection; // ให้ปุ่มใน HTML เรียกใช้ได้
-
-/* ==========================
-   Contact form validation
-========================== */
-function setupContactForm() {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const inputs = form.querySelectorAll('input, textarea');
-    let isValid = true;
-
-    inputs.forEach((input) => {
-      if (!input.value.trim()) {
-        isValid = false;
-        input.style.borderColor = '#ef4444';
-      } else {
-        input.style.borderColor = '#d1d5db';
-      }
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Instant cursor
+        cursor.style.transform = `translate3d(${mouseX - 8}px, ${mouseY - 8}px, 0)`;
     });
 
-    if (isValid) {
-      alert("Thank you for your message! I'll get back to you soon.");
-      form.reset();
-    } else {
-      alert('Please fill in all fields.');
+    // Smooth follower loop
+    function loop() {
+        followerX += (mouseX - followerX) * 0.15;
+        followerY += (mouseY - followerY) * 0.15;
+        
+        follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(loop);
     }
-  });
+    loop();
+
+    // Hover effects for interactive elements
+    const setupHoverEffects = () => {
+        const interactables = document.querySelectorAll('a, button, .bento-card, .project-card');
+        interactables.forEach(el => {
+            if (el.dataset.cursorHover) return;
+            el.dataset.cursorHover = 'true';
+            
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '64px';
+                follower.style.height = '64px';
+                follower.style.backgroundColor = 'rgba(139, 92, 246, 0.1)';
+                follower.style.borderColor = 'transparent';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.backgroundColor = 'transparent';
+                follower.style.borderColor = '#8b5cf6';
+            });
+        });
+    };
+    
+    setupHoverEffects();
+    // Expose for dynamic elements
+    window.setupHoverEffects = setupHoverEffects;
 }
 
 /* ==========================
-   Nav links smooth scroll
+   Hide Navbar on scroll down
 ========================== */
-function setupNavLinks() {
-  document.querySelectorAll('.nav-link').forEach((link) => {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href').substring(1);
-      scrollToSection(targetId);
+function initNavbarHideOnScroll() {
+    let lastScrollY = window.scrollY;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            if (window.scrollY > lastScrollY) {
+                // Scrolling down - hide
+                navbar.style.transform = 'translate(-50%, -150%)';
+            } else {
+                // Scrolling up - show
+                navbar.style.transform = 'translate(-50%, 0)';
+            }
+        } else {
+             navbar.style.transform = 'translate(-50%, 0)';
+        }
+        lastScrollY = window.scrollY;
     });
-  });
 }
 
 /* ==========================
-   Mobile menu toggle (basic)
+   Fetch GitHub Projects
 ========================== */
-function setupMobileMenu() {
-  const toggle = document.getElementById('menuToggle');
-  const menu = document.querySelector('nav .md\\:flex'); // ตัวเมนูหลักที่ซ่อนบน mobile
-  if (!toggle || !menu) return;
+async function fetchGitHubProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
 
-  // สร้างสำเนาเมนูสำหรับ mobile ถ้าอยากให้แยกชัดเจน สามารถเพิ่ม container ใหม่ใน HTML ได้
-  toggle.addEventListener('click', () => {
-    // สลับ hidden บนจอเล็ก
-    menu.classList.toggle('hidden');
-  });
+    try {
+        const username = 'thonepanya';
+        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=4`);
+        
+        if (!response.ok) throw new Error('Failed to fetch repos');
+        
+        const repos = await response.json();
+        grid.innerHTML = '';
+        
+        if (repos.length === 0) {
+            grid.innerHTML = '<p class="text-muted">No public repositories found.</p>';
+            return;
+        }
+
+        repos.forEach((repo, index) => {
+            const delay = index * 100;
+            const ogImageUrl = `https://opengraph.githubassets.com/1/${username}/${repo.name}`;
+            
+            const cardHTML = `
+                <a href="${repo.html_url}" target="_blank" class="group project-card bg-surface rounded-3xl overflow-hidden border border-border hover:border-accent/50 transition-colors block reveal" style="transition-delay: ${delay}ms;">
+                    <div class="h-64 overflow-hidden relative border-b border-border">
+                        <img src="${ogImageUrl}" alt="${repo.name}" class="w-full h-full object-cover project-card-img opacity-60 group-hover:opacity-100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500"></div>
+                        
+                        <div class="absolute top-6 right-6 w-12 h-12 bg-white text-black rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-10 shadow-lg">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="p-8 md:p-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-3xl font-bold text-white group-hover:text-accent transition-colors line-clamp-1">${repo.name.replace(/-/g, ' ')}</h3>
+                            <div class="flex items-center gap-1 text-accent text-sm font-bold bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">
+                                <i data-lucide="star" class="w-4 h-4"></i> ${repo.stargazers_count}
+                            </div>
+                        </div>
+                        <p class="text-muted line-clamp-2 h-12 mb-8 text-lg leading-relaxed">${repo.description || "No description provided."}</p>
+                        
+                        <div class="flex flex-wrap items-center gap-2">
+                            ${repo.language ? `<span class="px-4 py-1.5 rounded-full border border-border text-sm font-medium text-white bg-white/5">${repo.language}</span>` : ''}
+                        </div>
+                    </div>
+                </a>
+            `;
+            grid.insertAdjacentHTML('beforeend', cardHTML);
+        });
+
+        // Re-init icons and scroll reveal for new elements
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+        initScrollReveal();
+        
+        // Re-init hover effects
+        if (window.setupHoverEffects) {
+             window.setupHoverEffects();
+        }
+
+    } catch (error) {
+        console.error("Failed to fetch GitHub projects:", error);
+        grid.innerHTML = '<p class="text-red-500 bg-red-500/10 p-4 rounded-xl">Error loading projects. Please check console.</p>';
+    }
 }
-
-/* ==========================
-   Init
-========================== */
-function onScroll() {
-  animateOnScroll();
-  updateScrollIndicator();
-}
-
-// ใช้ defer ใน HTML แล้วจึงสามารถเรียก init ได้ทันที
-(function init() {
-  typeText();
-  animateOnScroll();
-  updateScrollIndicator();
-  setupContactForm();
-  setupNavLinks();
-  setupMobileMenu();
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-})();

@@ -1,451 +1,361 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITNE - Portfolio</title>
-    <!-- ...ส่วนหัวตามเดิม... -->
-    <link rel="stylesheet" href="style.css">
+    <title>ITNE | Portfolio</title>
+    <meta name="description" content="Portfolio of ITNE, IT Student and Aspiring Developer.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030014',
+                        surface: '#0d0b21',
+                        surfaceHover: '#151232',
+                        border: '#232145',
+                        accent: '#8b5cf6', /* Violet */
+                        muted: '#9ca3af'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
-</head>
-<body class="bg-gray-50">
-    <!-- Scroll Progress Indicator -->
-    <div class="scroll-indicator" id="scrollIndicator"></div>
-    
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold gradient-text">ITNE</div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="nav-link text-gray-700 hover:text-blue-600">Home</a>
-                    <a href="#about" class="nav-link text-gray-700 hover:text-blue-600">About</a>
-                    <a href="#skills" class="nav-link text-gray-700 hover:text-blue-600">Skills</a>
-                    <a href="#projects" class="nav-link text-gray-700 hover:text-blue-600">Projects</a>
-                    <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600">Contact</a>
-                </div>
-                <button id="menuToggle" class="md:hidden">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+
+<body
+    class="bg-background text-white antialiased font-sans selection:bg-accent selection:text-white min-h-screen flex flex-col">
+
+    <!-- Custom Cursor -->
+    <div id="cursor"
+        class="hidden md:block w-4 h-4 bg-accent rounded-full fixed top-0 left-0 pointer-events-none z-[100] mix-blend-difference transition-transform duration-100 ease-out">
+    </div>
+    <div id="cursor-follower"
+        class="hidden md:block w-10 h-10 border border-accent rounded-full fixed top-0 left-0 pointer-events-none z-[99] transition-all duration-300 ease-out -translate-x-1/2 -translate-y-1/2">
+    </div>
+
+    <!-- Floating Navbar -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-transform duration-300" id="navbar">
+        <div
+            class="bg-surface/80 backdrop-blur-md border border-border rounded-full px-6 py-3 flex items-center gap-8 shadow-2xl">
+            <a href="#home"
+                class="text-xl font-display font-bold tracking-tight text-white hover:text-accent transition-colors">IS.</a>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#about" class="text-sm font-medium text-muted hover:text-white transition-colors">About</a>
+                <a href="#projects" class="text-sm font-medium text-muted hover:text-white transition-colors">Work</a>
+                <a href="#experience"
+                    class="text-sm font-medium text-muted hover:text-white transition-colors">Experience</a>
             </div>
+            <a href="#contact"
+                class="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-accent hover:text-white hover:scale-105 transition-all duration-300">
+                Let's Talk
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
-        <div class="container mx-auto px-6 text-center">
-            <div class="fade-in">
-                <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold floating">
-                    ITNE
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="home"
+            class="relative pt-40 pb-20 px-6 md:px-12 max-w-[1400px] mx-auto min-h-[90vh] flex flex-col justify-center">
+            <!-- Background Elements -->
+            <div
+                class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[120px] -z-10 pointer-events-none animate-blob">
+            </div>
+            <div
+                class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-600/20 rounded-full blur-[120px] -z-10 pointer-events-none animate-blob animation-delay-2000">
+            </div>
+
+            <div class="max-w-4xl">
+                <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-surface text-sm font-medium text-muted mb-8"
+                    style="transition-delay: 100ms;">
+                    <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+                    Available for new opportunities
                 </div>
-                <h1 class="text-5xl md:text-7xl font-bold mb-4">
-                    Hi, I'm <span class="gradient-text">INTHONE SIHAPANYA</span>
+                <h1 class="reveal font-display text-5xl md:text-7xl lg:text-[6rem] font-bold leading-[1.1] tracking-tight mb-6"
+                    style="transition-delay: 200ms;">
+                    Building <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-white to-muted">digital</span> <br />
+                    experiences with <br />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">purpose.</span>
                 </h1>
-                <div class="text-xl md:text-2xl text-gray-600 mb-8 h-8">
-                    <span id="typingText" class="typing-animation"></span>
-                </div>
-                <div class="flex justify-center space-x-4">
-                    <button onclick="scrollToSection('projects')" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-                        View My Work
-                    </button>
-                    <button onclick="scrollToSection('contact')" class="border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full hover:bg-blue-600 hover:text-white transition duration-300">
-                        Get In Touch
-                    </button>
+                <p class="reveal text-lg md:text-xl text-muted max-w-2xl font-light mb-10 leading-relaxed"
+                    style="transition-delay: 300ms;">
+                    Hi, I'm ITNE. An IT student and aspiring developer passionate about crafting robust web
+                    applications, hardware interfaces, and efficient server architectures.
+                </p>
+                <div class="reveal flex flex-wrap items-center gap-4" style="transition-delay: 400ms;">
+                    <a href="#projects"
+                        class="group flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-accent hover:text-white transition-colors duration-300">
+                        See My Work
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="https://github.com/thonepanya" target="_blank"
+                        class="w-14 h-14 flex items-center justify-center rounded-full border border-border hover:border-white transition-colors duration-300 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-6 h-6">
+                            <path
+                                d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3-.3 6-1.5 6-6.5a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 5 3 6.2 6 6.5a4.8 4.8 0 0 0-1 3.2v4">
+                            </path>
+                        </svg>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in">About Me</h2>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div class="slide-in-left">
-                        <div class="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center text-white text-6xl">
-                            👨‍💻
-                        </div>
+        <!-- Bento Grid About/Skills -->
+        <section id="about" class="py-24 px-6 md:px-12 max-w-[1400px] mx-auto">
+            <h2 class="font-display text-3xl md:text-5xl font-bold mb-12 reveal">About & <span
+                    class="text-muted">Skills</span></h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
+
+                <!-- About Me Block (Spans 2 cols, 2 rows) -->
+                <div
+                    class="md:col-span-2 md:row-span-2 bg-surface rounded-3xl p-8 md:p-10 border border-border hover:border-accent/30 transition-colors flex flex-col justify-between reveal bento-card relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     </div>
-                    <div class="slide-in-right">
-                        <h3 class="text-2xl font-semibold mb-6">Developer & Littel Designer</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            I'm a passionate full-stack developer with 1+ years of experience creating beautiful, 
-                            functional web applications. I love turning complex problems into simple, elegant solutions.
+                    <div>
+                        <h3 class="font-display text-3xl font-bold mb-6">Who am I?</h3>
+                        <p class="text-muted leading-relaxed text-lg mb-4">
+                            I'm a self-driven IT student based in Vientiane Capital. My journey in tech started with a
+                            curiosity for how things work under the hood.
                         </p>
-                        <p class="text-gray-600 mb-8 leading-relaxed">
-                            When I'm not coding, you can find me exploring new technologies, contributing to open-source 
-                            projects, or enjoying a good cup of coffee while sketching new ideas.
+                        <p class="text-muted leading-relaxed text-lg">
+                            Today, I blend my knowledge of software development, server infrastructure, and hardware to
+                            build comprehensive solutions. Whether it's a sleek frontend or a complex backend script, I
+                            enjoy the entire process of creation.
                         </p>
-                        <div class="flex space-x-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-blue-600">4</div>
-                                <div class="text-gray-600">Projects</div>
+                    </div>
+                    <div class="flex items-center gap-4 mt-8">
+                        <a href="#contact"
+                            class="text-sm font-bold uppercase tracking-wider text-accent hover:underline underline-offset-4 flex items-center gap-2">
+                            Get in touch <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Block -->
+                <div
+                    class="bg-surface rounded-3xl p-8 border border-border hover:border-accent/30 transition-colors flex flex-col justify-center items-center text-center reveal bento-card">
+                    <div class="font-display text-7xl font-bold text-white mb-2">1+</div>
+                    <div class="text-muted font-medium text-lg">Years Coding</div>
+                </div>
+
+                <!-- Tech Stack Block -->
+                <div
+                    class="md:col-span-1 md:row-span-2 bg-surface rounded-3xl p-8 border border-border hover:border-accent/30 transition-colors flex flex-col reveal bento-card">
+                    <h3 class="font-display text-2xl font-bold mb-8">Core Stack</h3>
+                    <div class="flex-grow flex flex-col gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent"><i
+                                    data-lucide="code-2" class="w-6 h-6"></i></div>
+                            <div>
+                                <div class="font-bold text-lg">Frontend</div>
+                                <div class="text-sm text-muted">HTML, CSS, JS</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-blue-600">1</div>
-                                <div class="text-gray-600">Years</div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent"><i
+                                    data-lucide="server" class="w-6 h-6"></i></div>
+                            <div>
+                                <div class="font-bold text-lg">Backend</div>
+                                <div class="text-sm text-muted">Python, Node.js, C++</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-blue-600">70%</div>
-                                <div class="text-gray-600">Passion</div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent"><i
+                                    data-lucide="hard-drive" class="w-6 h-6"></i></div>
+                            <div>
+                                <div class="font-bold text-lg">Systems</div>
+                                <div class="text-sm text-muted">Ubuntu, Windows</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent"><i
+                                    data-lucide="cpu" class="w-6 h-6"></i></div>
+                            <div>
+                                <div class="font-bold text-lg">Hardware</div>
+                                <div class="text-sm text-muted">Arduino, IoT</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-   <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 fade-in">Skills & Expertise</h2>
-            <div class="max-w-4xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="slide-in-left">
-                        <h3 class="text-2xl font-semibold mb-8">Technical Skills</h3>
-                        <div class="space-y-6">
-                            <div class="skill-item">
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-medium">LUA</span>
-                                    <span class="text-gray-600">100%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="skill-bar bg-purple-600 h-2 rounded-full" style="--skill-width: 100%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-medium">C/C++</span>
-                                    <span class="text-gray-600">89%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="skill-bar bg-blue-600 h-2 rounded-full" style="--skill-width: 89%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-medium">Python</span>
-                                    <span class="text-gray-600">60%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="skill-bar bg-yellow-600 h-2 rounded-full" style="--skill-width: 60%"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="flex justify-between mb-2">
-                                    <span class="font-medium">Next.js</span>
-                                    <span class="text-gray-600">50%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="skill-bar bg-green-600 h-2 rounded-full" style="--skill-width: 50%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-in-right">
-                        <h3 class="text-2xl font-semibold mb-8">Tools & Technologies</h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">⚛️</div>
-                                <div class="font-medium">React</div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">🟢</div>
-                                <div class="font-medium">Node.js</div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">🐍</div>
-                                <div class="font-medium">Python</div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">🎨</div>
-                                <div class="font-medium">Figma</div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">🐳</div>
-                                <div class="font-medium">Docker</div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg text-center hover:shadow-lg transition duration-300">
-                                <div class="text-3xl mb-2">☁️</div>
-                                <div class="font-medium">AWS</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 fade-in">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- <div class="project-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
-                    <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-4xl">
-                        🚀
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-3">E-Commerce Platform</h3>
-                        <p class="text-gray-600 mb-4">Full-stack e-commerce solution with React, Node.js, and Stripe integration.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Node.js</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">MongoDB</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button class="text-blue-600 hover:text-blue-800 font-medium">Live Demo</button>
-                            <button class="text-gray-600 hover:text-gray-800 font-medium">GitHub</button>
-                        </div>
-                    </div>
-                </div> -->
-
-                <div class="project-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
-                    <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white text-4xl">
-                        📱
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-3">ITNE-Blacklist-Website</h3>
-                        <p class="text-gray-600 mb-4">This is a website I created to help society by reporting wrongdoers.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Javascript</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="https://thonepanya.github.io/ITNE-Blacklist/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium">Live Demo</a>
-                        </div>
-                    </div>
+                <!-- Location Block -->
+                <div
+                    class="bg-surface rounded-3xl p-8 border border-border hover:border-accent/30 transition-colors flex flex-col justify-center relative overflow-hidden reveal bento-card">
+                    <i data-lucide="map-pin" class="w-10 h-10 text-accent mb-4"></i>
+                    <h3 class="font-display text-2xl font-bold">Vientiane, Laos</h3>
+                    <p class="text-muted mt-2">Available for remote work</p>
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
                 </div>
 
-                <!-- <div class="project-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
-                    <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-4xl">
-                        🎨
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-3">Design System</h3>
-                        <p class="text-gray-600 mb-4">Comprehensive design system with reusable components and documentation.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Storybook</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Sass</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Figma</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button class="text-blue-600 hover:text-blue-800 font-medium">Live Demo</button>
-                            <button class="text-gray-600 hover:text-gray-800 font-medium">GitHub</button>
-                        </div>
-                    </div>
-                </div> -->
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 fade-in">Let's Work Together</h2>
-            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-                <div class="slide-in-left">
-                    <h3 class="text-2xl font-semibold mb-6">Get In Touch</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed">
-                        I'm always interested in new opportunities and exciting projects. 
-                        Whether you have a question or just want to say hi, feel free to reach out!
+        <!-- Selected Work -->
+        <section id="projects" class="py-24 px-6 md:px-12 max-w-[1400px] mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal">
+                <div>
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Selected <span
+                            class="text-muted">Work</span></h2>
+                    <p class="text-muted text-lg max-w-xl">A curated collection of my recent projects, from web
+                        applications to server configurations.</p>
+                </div>
+                <a href="https://github.com/thonepanya" target="_blank"
+                    class="mt-6 md:mt-0 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-accent transition-colors">
+                    View GitHub <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8" id="projects-grid">
+                <!-- Loading State -->
+                <div class="col-span-full py-12 flex justify-center">
+                    <div class="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Timeline -->
+        <section id="experience" class="py-24 px-6 md:px-12 max-w-[1400px] mx-auto relative">
+            <div class="absolute left-6 md:left-12 top-24 bottom-24 w-px bg-border -z-10"></div>
+
+            <h2 class="font-display text-3xl md:text-5xl font-bold mb-16 reveal">My <span
+                    class="text-muted">Journey</span></h2>
+
+            <div class="space-y-16 pl-8 md:pl-16 relative">
+
+                <!-- Item -->
+                <div class="reveal relative group">
+                    <div
+                        class="absolute -left-[41px] md:-left-[73px] top-1 w-4 h-4 rounded-full bg-surface border-2 border-accent transition-transform group-hover:scale-150 group-hover:bg-accent shadow-[0_0_10px_rgba(139,92,246,0.5)]">
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 mb-2">
+                        <span class="text-accent font-mono text-sm tracking-wider uppercase font-semibold">2023 —
+                            Present</span>
+                        <h3 class="font-display text-3xl font-bold text-white">IT Student (2nd Year)</h3>
+                    </div>
+                    <h4 class="text-lg text-muted mb-4 font-medium">Computer Programming Major</h4>
+                    <p class="text-muted max-w-2xl leading-relaxed text-lg">
+                        Currently in my 2nd year of study, majoring in Computer Programming. I am actively learning and
+                        applying core programming concepts to build a strong foundation in software development.
                     </p>
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                                📧
-                            </div>
-                            <div>
-                                <div class="font-medium">Email</div>
-                                <div class="text-gray-600">sihapanya.info@gmail.com</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                                📱
-                            </div>
-                            <div>
-                                <div class="font-medium">Phone</div>
-                                <div class="text-gray-600">+856 20 52 862 004</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                                📍
-                            </div>
-                            <div>
-                                <div class="font-medium">Location</div>
-                                <div class="text-gray-600">Ban Hom Hadxayfong, VT</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex space-x-4 mt-8">
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-blue-700 transition duration-300 pulse-dot">
-                            💼
-                        </div>
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-blue-700 transition duration-300 pulse-dot">
-                            🐙
-                        </div>
-                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-blue-700 transition duration-300 pulse-dot">
-                            🐦
-                        </div>
-                    </div>
                 </div>
-                <div class="slide-in-right">
-                     <form id="contact-form" class="contact-card">
-                        <label class="block text-gray-700 font-medium mb-2">Name</label>
-                        <input type="text" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300" placeholder="Your Name">
 
-                        <label class="block text-gray-700 font-medium mb-2">Email</label>
-                        <input type="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300" placeholder="your@email.com">
-
-                        <label class="block text-gray-700 font-medium mb-2">Message</label>
-                        <textarea rows="5" name="message" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition duration-300" placeholder="Tell me about your project..."></textarea>
-
-                        <!-- honeypot (ซ่อนด้วย CSS) -->
-                        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" />
-
-                        <button id="contact-submit" type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 btn-primary">Send Message</button>
-                        <p id="contact-status" style="margin-top:8px;"></p>
-                    </form>
+                <!-- Item -->
+                <div class="reveal relative group">
+                    <div
+                        class="absolute -left-[41px] md:-left-[73px] top-1 w-4 h-4 rounded-full bg-surface border-2 border-muted transition-transform group-hover:scale-150 group-hover:border-white">
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 mb-2">
+                        <span class="text-muted font-mono text-sm tracking-wider uppercase font-semibold">10/10/2024 —
+                            Present</span>
+                        <h3 class="font-display text-3xl font-bold text-white">IT Student</h3>
+                    </div>
+                    <h4 class="text-lg text-muted mb-4 font-medium">Soutsaka Institute of Technology</h4>
+                    <p class="text-muted max-w-2xl leading-relaxed text-lg">
+                        ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ Soutsaka Institute of Technology
+                    </p>
                 </div>
+
+                <!-- Item -->
+                <div class="reveal relative group">
+                    <div
+                        class="absolute -left-[41px] md:-left-[73px] top-1 w-4 h-4 rounded-full bg-surface border-2 border-muted transition-transform group-hover:scale-150 group-hover:border-white">
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 mb-2">
+                        <span class="text-muted font-mono text-sm tracking-wider uppercase font-semibold">2021</span>
+                        <h3 class="font-display text-3xl font-bold text-white">High School Graduate</h3>
+                    </div>
+                    <h4 class="text-lg text-muted mb-4 font-medium">Vientiane Capital</h4>
+                    <p class="text-muted max-w-2xl leading-relaxed text-lg">
+                        Completed general education with a strong interest in computer science and technology, sparking
+                        the desire to pursue an IT career.
+                    </p>
+                </div>
+
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6 text-center">
-            <div class="text-2xl font-bold gradient-text mb-4">INTHONE SIHAPANYA</div>
-            <p class="text-gray-400 mb-8">Building the future, one line of code at a time.</p>
-            <div class="border-t border-gray-800 pt-8">
-                <p class="text-gray-500">&copy; 2025 Inthone Sihapanya. All rights reserved.</p>
+    </main>
+
+    <!-- Huge Footer Contact -->
+    <footer id="contact" class="bg-surface border-t border-border mt-12 relative overflow-hidden">
+        <div
+            class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12 pt-32 pb-12 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 reveal">
+                <div class="max-w-2xl mb-12 md:mb-0">
+                    <h2 class="font-display text-6xl md:text-8xl font-bold mb-6 tracking-tight">Let's work <br /><span
+                            class="text-muted">together.</span></h2>
+                    <p class="text-xl md:text-2xl text-muted">I'm currently available for freelance work and new
+                        opportunities.</p>
+                </div>
+                <a href="mailto:sihapanya.info@gmail.com"
+                    class="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-accent text-white rounded-full text-xl md:text-2xl font-bold hover:scale-110 transition-transform duration-500 shadow-[0_0_40px_rgba(139,92,246,0.3)]">
+                    Say Hi
+                    <i data-lucide="arrow-up-right"
+                        class="w-8 h-8 md:w-10 md:h-10 ml-2 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-300"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-border pt-12 reveal">
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-muted mb-6">Contact</h4>
+                    <a href="mailto:sihapanya.info@gmail.com"
+                        class="block text-xl hover:text-accent transition-colors mb-3">sihapanya.info@gmail.com</a>
+                    <p class="text-xl text-muted">+856 20 52 862 004</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-muted mb-6">Socials</h4>
+                    <div class="flex flex-col gap-4">
+                        <a href="https://github.com/thonepanya" target="_blank"
+                            class="text-xl hover:text-accent transition-colors flex items-center gap-2 w-max">
+                            Github <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" target="_blank"
+                            class="text-xl hover:text-accent transition-colors flex items-center gap-2 w-max text-muted">
+                            LinkedIn <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:text-right flex flex-col justify-between">
+                    <div class="font-display text-4xl font-bold mb-4 text-white">IS.</div>
+                    <p class="text-muted">&copy; <span id="year"></span> ITNE.<br>All rights reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- <script>
-        // Typing animation
-        const texts = ['Full Stack Developer', 'Problem Solver', 'Coding'];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const typingElement = document.getElementById('typingText');
-
-        function typeText() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                typingElement.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingElement.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            if (!isDeleting && charIndex === currentText.length) {
-                setTimeout(() => isDeleting = true, 2000);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-
-            const speed = isDeleting ? 50 : 100;
-            setTimeout(typeText, speed);
-        }
-
-        // Scroll animations
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
-            
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('visible');
-                }
-            });
-
-            // Animate skill bars
-            const skillBars = document.querySelectorAll('.skill-bar');
-            skillBars.forEach(bar => {
-                const barTop = bar.getBoundingClientRect().top;
-                if (barTop < window.innerHeight - 150) {
-                    bar.classList.add('animate');
-                }
-            });
-        }
-
-        // Scroll progress indicator
-        function updateScrollIndicator() {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
-        }
-
-        // Smooth scroll to section
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simple form validation and success message
-            const inputs = this.querySelectorAll('input, textarea');
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#ef4444';
-                } else {
-                    input.style.borderColor = '#d1d5db';
-                }
-            });
-            
-            if (isValid) {
-                alert('Thank you for your message! I\'ll get back to you soon.');
-                this.reset();
-            } else {
-                alert('Please fill in all fields.');
-            }
-        });
-
-        // Navigation links smooth scroll
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                scrollToSection(targetId);
-            });
-        });
-
-        // Initialize animations
-        window.addEventListener('scroll', () => {
-            animateOnScroll();
-            updateScrollIndicator();
-        });
-
-        window.addEventListener('load', () => {
-            typeText();
-            animateOnScroll();
-        });
-
-        // Mobile menu toggle (basic implementation)
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            alert('Mobile menu would open here in a full implementation!');
-        });
-    </script> -->
+    <!-- Initialize Icons & Year -->
+    <script>
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
+
 </html>
